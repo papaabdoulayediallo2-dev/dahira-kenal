@@ -1,0 +1,2773 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dahira Kenal - Gestion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ecfdf5 0%, #ccfbf1 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #d1fae5;
+        }
+
+        .tabs {
+            background: white;
+            display: flex;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab:hover {
+            background: #f3f4f6;
+        }
+
+        .tab.active {
+            color: white;
+            background: #059669;
+            border-bottom-color: #047857;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background: #059669;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .member-card:hover {
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .member-date {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-ok {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-late {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .member-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-call {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-print {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #047857;
+        }
+
+        .btn-history {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-history:hover {
+            background: #4f46e5;
+        }
+
+        /* Styles pour le calendrier */
+        .calendar-day {
+            background: white;
+            min-height: 120px;
+            padding: 0.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #f9fafb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .calendar-day-header {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day.today {
+            background: #fef3c7;
+        }
+
+        .calendar-day.other-month {
+            background: #f9fafb;
+            color: #9ca3af;
+        }
+
+        .payment-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 1px;
+        }
+
+        .payment-hebdo {
+            background: #10b981;
+        }
+
+        .payment-mensuel {
+            background: #3b82f6;
+        }
+
+        .payment-both {
+            background: #8b5cf6;
+        }
+
+        .calendar-day-details {
+            position: absolute;
+            bottom: 0.25rem;
+            right: 0.25rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .calendar-tooltip {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 0.875rem;
+        }
+
+        .calendar-tooltip.show {
+            display: block;
+        }
+
+        .tooltip-payment {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .tooltip-payment:last-child {
+            border-bottom: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .stat-value {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #059669;
+            margin-top: 0.25rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem 1rem 0 0;
+            position: relative;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background 0.3s;
+        }
+
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #059669;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #d1d5db;
+            color: #374151;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #9ca3af;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stats-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .stats-card .big-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .payment-table {
+            width: 100%;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .payment-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-table th {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .payment-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .payment-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .payment-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .type-hebdo {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .type-mensuel {
+            background: #ccfbf1;
+            color: #115e59;
+        }
+
+        .type-diayante {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            color: #d1d5db;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-actions h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .backup-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-export {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-export:hover {
+            background: #2563eb;
+        }
+
+        .btn-import {
+            background: #8b5cf6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-import:hover {
+            background: #7c3aed;
+        }
+
+        #import-file {
+            display: none;
+        }
+
+        /* Styles pour la comparaison de périodes */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .comparison-card h4 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .comparison-metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .metric-change {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        .change-positive {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .change-negative {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .change-neutral {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* Styles pour l'impression du reçu */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .receipt, .receipt * {
+                visibility: visible;
+            }
+            .receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                font-family: 'Times New Roman', serif;
+                background: white;
+                padding: 2rem;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* Optimisations pour mobiles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+
+            .tabs::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+
+            .tab {
+                flex: none;
+                min-width: 120px;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                white-space: nowrap;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .calendar-grid {
+                font-size: 0.875rem;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .calendar-nav {
+                justify-content: center;
+            }
+
+            .member-card {
+                padding: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .backup-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-export, .btn-import, .btn-backup, .btn-restore {
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .header-actions h2 {
+                text-align: center;
+                margin: 0;
+            }
+
+            .search-filters {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .filters {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .payment-table {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .payment-table table {
+                min-width: 600px;
+            }
+
+            .historique-stats {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-width: none;
+                margin: 1rem;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .receipt {
+                width: 95%;
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+
+            /* Améliorations tactiles pour mobile */
+            .tab, .btn-primary, .btn-secondary, .btn-export, .btn-import, .btn-backup, .btn-restore {
+                min-height: 44px; /* Taille minimale recommandée pour les boutons tactiles */
+                touch-action: manipulation;
+            }
+
+            .form-input, .form-select {
+                min-height: 44px;
+                font-size: 16px; /* Empêche le zoom automatique sur iOS */
+            }
+
+            /* Amélioration du scroll sur mobile */
+            * {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Optimisation des modales sur mobile */
+            .modal {
+                padding: 0;
+            }
+
+            .modal-content {
+                border-radius: 0;
+                margin: 0;
+                height: 100vh;
+                max-height: none;
+            }
+
+            /* Amélioration des tableaux sur mobile */
+            .payment-table tr {
+                display: block;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                margin-bottom: 1rem;
+                padding: 1rem;
+                background: white;
+            }
+
+            .payment-table td {
+                display: block;
+                border: none;
+                padding: 0.5rem 0;
+                text-align: left;
+            }
+
+            .payment-table td:before {
+                content: attr(data-label) ": ";
+                font-weight: bold;
+                color: #6b7280;
+                display: inline-block;
+                min-width: 100px;
+            }
+
+            .payment-table th {
+                display: none;
+            }
+
+            /* Masquer les actions sur mobile pour économiser l'espace */
+            .payment-table td:last-child {
+                border-top: 1px solid #e5e7eb;
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+
+            /* Boutons d'icônes sur mobile */
+            .btn-icon {
+                min-width: 44px;
+                min-height: 44px;
+                font-size: 1.2rem;
+            }
+
+            /* Amélioration des inputs sur mobile */
+            input[type="date"], input[type="number"], input[type="tel"] {
+                font-size: 16px; /* Empêche le zoom sur iOS */
+                padding: 0.75rem;
+            }
+
+            /* Grille adaptative pour les formulaires */
+            .form-row {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .form-row .form-group {
+                flex: 1;
+                min-width: 200px;
+            }
+
+            /* Classes utilitaires pour mobile */
+            .mobile-hidden {
+                display: none;
+            }
+
+            .mobile-full-width {
+                width: 100%;
+            }
+
+            /* Amélioration des animations sur mobile */
+            .member-card, .btn-primary, .btn-secondary {
+                transition: all 0.2s ease; /* Animations plus rapides sur mobile */
+            }
+
+            /* Indicateur d'onglet actif plus visible sur mobile */
+            .tab.active {
+                position: relative;
+            }
+
+            .tab.active::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                height: 3px;
+                background: #059669;
+                border-radius: 2px;
+            }
+
+            /* Empilement vertical pour les éléments complexes */
+            .mobile-stack {
+                flex-direction: column !important;
+            }
+
+            .mobile-stack > * {
+                width: 100% !important;
+            }
+
+            /* Centrage du contenu sur mobile */
+            .mobile-center {
+                text-align: center;
+            }
+
+            /* Amélioration des espaces sur mobile */
+            .mobile-padding {
+                padding: 1rem !important;
+            }
+
+            .mobile-margin {
+                margin: 1rem 0 !important;
+            }
+        }
+
+        /* Optimisations pour tablettes */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+                max-width: 900px;
+            }
+
+            .tabs {
+                padding: 0 1rem;
+            }
+
+            .tab {
+                flex: 1;
+                padding: 1rem 1.5rem;
+                font-size: 0.95rem;
+                min-width: auto;
+            }
+
+            /* Grilles adaptées pour tablettes */
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            /* Tableaux plus lisibles sur tablette */
+            .payment-table {
+                font-size: 0.9rem;
+            }
+
+            .payment-table th,
+            .payment-table td {
+                padding: 0.75rem;
+            }
+
+            /* Cartes optimisées pour tablette */
+            .member-card {
+                padding: 1.5rem;
+            }
+
+            /* Calendrier adapté */
+            .calendar-grid {
+                font-size: 0.9rem;
+                grid-template-columns: repeat(7, 1fr);
+            }
+
+            .calendar-header {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 2rem;
+            }
+
+            .calendar-nav {
+                gap: 1rem;
+            }
+
+            /* Modales adaptées pour tablette */
+            .modal-content {
+                width: 90%;
+                max-width: 700px;
+                margin: 2rem auto;
+                max-height: 80vh;
+                border-radius: 1rem;
+            }
+
+            /* Formulaires en grille sur tablette */
+            .form-row {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .form-row .form-group {
+                margin-bottom: 0;
+            }
+
+            /* Boutons adaptés pour tablette */
+            .backup-buttons {
+                flex-direction: row;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .btn-export, .btn-import, .btn-backup, .btn-restore {
+                width: auto;
+                min-width: 140px;
+                padding: 0.75rem 1.5rem;
+            }
+
+            /* Header actions adapté */
+            .header-actions {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .header-actions h2 {
+                text-align: left;
+                margin: 0;
+            }
+
+            /* Filtres adaptés */
+            .search-filters {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .filters {
+                justify-content: flex-end;
+            }
+
+            /* Animations normales pour tablette */
+            .member-card, .btn-primary, .btn-secondary {
+                transition: all 0.3s ease;
+            }
+
+            /* Indicateur d'onglet actif */
+            .tab.active::after {
+                width: 60%;
+            }
+        }
+
+        /* Optimisations pour grands écrans (desktop) */
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 1400px;
+                padding: 2rem 3rem;
+            }
+
+            .header {
+                padding: 3rem 3rem 2rem;
+            }
+
+            .tabs {
+                padding: 0 2rem;
+            }
+
+            .tab {
+                padding: 1.25rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            /* Grilles optimisées pour desktop */
+            .stats-cards {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            /* Tableaux desktop */
+            .payment-table {
+                font-size: 1rem;
+            }
+
+            .payment-table th,
+            .payment-table td {
+                padding: 1rem;
+            }
+
+            /* Cartes desktop */
+            .member-card {
+                padding: 2rem;
+            }
+
+            /* Modales desktop */
+            .modal-content {
+                width: 80%;
+                max-width: 900px;
+                margin: 3rem auto;
+                max-height: 70vh;
+            }
+
+            /* Formulaires desktop */
+            .form-row {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            /* Boutons desktop */
+            .backup-buttons {
+                justify-content: flex-start;
+                gap: 1.5rem;
+            }
+
+            .btn-export, .btn-import, .btn-backup, .btn-restore {
+                min-width: 160px;
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            /* Indicateur d'onglet desktop */
+            .tab.active::after {
+                width: 50%;
+            }
+
+            /* Hover effects améliorés sur desktop */
+            .member-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 16px rgba(5, 150, 105, 0.3);
+            }
+        }
+
+        /* Optimisations pour écrans larges (1200px+) */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1600px;
+                padding: 3rem 4rem;
+            }
+
+            .header {
+                padding: 4rem 4rem 3rem;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2.5rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2.5rem;
+            }
+        }
+
+        /* Classes utilitaires de réactivité */
+        .tablet-hidden {
+            display: block;
+        }
+
+        .tablet-show {
+            display: none;
+        }
+
+        .desktop-hidden {
+            display: block;
+        }
+
+        .desktop-show {
+            display: none;
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .tablet-hidden {
+                display: none;
+            }
+
+            .tablet-show {
+                display: block;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .desktop-hidden {
+                display: none;
+            }
+
+            .desktop-show {
+                display: block;
+            }
+        }
+
+        /* Amélioration de la fluidité */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Optimisation des images et médias */
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Améliorations d'accessibilité mobile */
+        @media (hover: none) and (pointer: coarse) {
+            /* Styles spécifiques pour les appareils tactiles */
+            .member-card {
+                margin-bottom: 1rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                min-height: 48px;
+                padding: 0.75rem 1.5rem;
+            }
+
+            /* Espacement tactile amélioré */
+            .tab {
+                margin-right: 0.25rem;
+            }
+
+            /* Focus visible pour accessibilité */
+            .tab:focus,
+            .btn-primary:focus,
+            .btn-secondary:focus,
+            input:focus,
+            select:focus,
+            textarea:focus {
+                outline: 3px solid #059669;
+                outline-offset: 2px;
+            }
+        }
+
+        /* Préférences de mouvement réduit */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Haute contraste */
+        @media (prefers-contrast: high) {
+            .member-card {
+                border: 2px solid #000;
+            }
+
+            .tab.active {
+                border: 2px solid #059669;
+                border-bottom: 2px solid #fff;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .tab {
+                min-width: 100px;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .btn-primary, .btn-secondary, .btn-export, .btn-import, .btn-backup, .btn-restore {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .member-card {
+                padding: 0.75rem;
+            }
+
+            .stats-card h3 {
+                font-size: 1rem;
+            }
+
+            .big-number {
+                font-size: 1.5rem;
+            }
+
+            .calendar-legend {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .calendar-legend div {
+                font-size: 0.8rem;
+            }
+        }
+
+        .receipt {
+            display: none;
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border: 2px solid #059669;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px solid #059669;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .receipt-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .receipt-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+        }
+
+        .receipt-label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .receipt-value {
+            color: #1f2937;
+        }
+
+        .receipt-total {
+            border-top: 2px solid #e5e7eb;
+            padding-top: 1rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #059669;
+            text-align: center;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Styles spécifiques selon le type d'appareil détecté */
+        .device-mobile .member-card {
+            margin-bottom: 1rem;
+            border-radius: 0.75rem;
+        }
+
+        .device-tablet .member-card {
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .device-desktop .member-card {
+            margin-bottom: 2rem;
+            border-radius: 1rem;
+        }
+
+        /* Optimisations de performance pour mobile */
+        .device-mobile * {
+            will-change: auto;
+        }
+
+        .device-mobile .member-card,
+        .device-mobile .btn-primary,
+        .device-mobile .btn-secondary {
+            transform: translateZ(0); /* Accélère les animations sur mobile */
+        }
+
+        /* Indicateurs visuels d'appareil (pour debug) */
+        .device-indicator {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9999;
+        }
+
+        /* Décommenter pour debug */
+        /* .device-indicator { display: block; } */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🕌 Dahira Kenal</h1>
+        <p>Gestion des membres et cotisations</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('membres')">👥 Membres</button>
+        <button class="tab" onclick="showTab('paiements')">💰 Cotisations</button>
+        <button class="tab" onclick="showTab('stats')">📊 Statistiques</button>
+        <button class="tab" onclick="showTab('calendrier')">📅 Calendrier</button>
+        <button class="tab" onclick="showTab('calculateur')">🧮 Calculateur</button>
+    </div>
+
+    <div class="container">
+        <!-- Boutons de sauvegarde -->
+        <div class="backup-buttons">
+            <button class="btn-export" onclick="exportData()">📥 Exporter les données</button>
+            <button class="btn-import" onclick="document.getElementById('import-file').click()">📤 Importer les données</button>
+            <input type="file" id="import-file" accept=".json" onchange="importData(event)">
+        </div>
+
+        <!-- Onglet Membres -->
+        <div id="tab-membres" class="tab-content active">
+            <div class="header-actions">
+                <h2>Liste des Membres (<span id="membre-count">0</span>)</h2>
+                <button class="btn-primary" onclick="openModal('addMember')">+ Nouveau Membre</button>
+            </div>
+            <!-- Barre de recherche et filtres -->
+            <div class="search-filters" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="search-input" placeholder="Rechercher un membre..." class="form-input" style="flex: 1; min-width: 200px;">
+                <div class="filters">
+                    <label style="margin-right: 1rem;"><input type="checkbox" id="filter-ok" checked> À jour</label>
+                    <label><input type="checkbox" id="filter-late" checked> En retard</label>
+                </div>
+            </div>
+            <div id="membres-list"></div>
+        </div>
+
+        <!-- Onglet Paiements -->
+        <div id="tab-paiements" class="tab-content">
+            <div class="header-actions">
+                <h2>Historique des Paiements (<span id="payment-count">0</span>)</h2>
+            </div>
+            <div class="payment-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Membre</th>
+                            <th>Type</th>
+                            <th style="text-align: right;">Montant</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payments-list"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Onglet Stats -->
+        <div id="tab-stats" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem; color: #1f2937;">Statistiques Globales</h2>
+            <div class="stats-cards">
+                <div class="stats-card">
+                    <h3>Caisse Hebdomadaire</h3>
+                    <p class="big-number" id="total-hebdo">0</p>
+                    <p style="opacity: 0.8;">FCFA</p>
+                </div>
+                <div class="stats-card" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">
+                    <h3>Caisse Mensuelle</h3>
+                    <p class="big-number" id="total-mensuel">0</p>
+                    <p style="opacity: 0.8;">FCFA</p>
+                </div>
+                <div class="stats-card" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+                    <h3>Caisse Diayante</h3>
+                    <p class="big-number" id="total-diayante">0</p>
+                    <p style="opacity: 0.8;">FCFA</p>
+                </div>
+                <div class="stats-card" style="background: linear-gradient(135deg, #374151 0%, #1f2937 100%);">
+                    <h3>Total Global</h3>
+                    <p class="big-number" id="total-global">0</p>
+                    <p style="opacity: 0.8;">FCFA</p>
+                </div>
+            </div>
+            <div id="stats-details"></div>
+
+            <!-- Comparaison de Périodes -->
+            <div class="member-card" style="margin-top: 2rem;">
+                <h3 style="font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem;">📊 Comparaison de Périodes</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">Période 1</label>
+                        <select id="period1-select" class="form-select">
+                            <option value="">Sélectionner une période...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Période 2</label>
+                        <select id="period2-select" class="form-select">
+                            <option value="">Sélectionner une période...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="comparePeriods()" style="margin-bottom: 1.5rem;">Comparer les Périodes</button>
+
+                <div id="comparison-results" style="display: none;">
+                    <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- Résultats de comparaison seront insérés ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglet Calendrier -->
+        <div id="tab-calendrier" class="tab-content">
+            <div class="calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="margin: 0; color: #1f2937;">Calendrier des Paiements</h2>
+                <div class="calendar-nav" style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn-secondary" onclick="previousMonth()">← Précédent</button>
+                    <h3 id="calendar-month-year" style="margin: 0; color: #1f2937; min-width: 200px; text-align: center;"></h3>
+                    <button class="btn-secondary" onclick="nextMonth()">Suivant →</button>
+                </div>
+            </div>
+            <div class="calendar-legend" style="display: flex; gap: 2rem; margin-bottom: 1.5rem; justify-content: center;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 20px; height: 20px; background: #10b981; border-radius: 50%;"></div>
+                    <span style="color: #6b7280;">Paiement Hebdomadaire</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 20px; height: 20px; background: #3b82f6; border-radius: 50%;"></div>
+                    <span style="color: #6b7280;">Paiement Mensuel</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 20px; height: 20px; background: #8b5cf6; border-radius: 50%;"></div>
+                    <span style="color: #6b7280;">Les Deux Types</span>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                <!-- Les jours de la semaine seront générés en JavaScript -->
+            </div>
+        </div>
+
+        <!-- Onglet Calculateur -->
+        <div id="tab-calculateur" class="tab-content">
+            <h2 style="margin-bottom: 2rem; color: #1f2937;">Calculateur de Cotisations</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                <!-- Calculateur Individuel -->
+                <div class="member-card">
+                    <h3 style="font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem;">Calculateur Individuel</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Sélectionner un membre</label>
+                        <select id="calc-member-select" class="form-select" onchange="calculateContributions()">
+                            <option value="">Choisir un membre...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Période (mois)</label>
+                        <input type="number" id="calc-period" class="form-input" value="1" min="1" max="12" onchange="calculateContributions()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Fréquence de paiement</label>
+                        <select id="calc-frequency" class="form-select" onchange="calculateContributions()">
+                            <option value="hebdomadaire">Hebdomadaire (250 FCFA/semaine)</option>
+                            <option value="mensuelle">Mensuelle (500 FCFA/mois)</option>
+                            <option value="diayante">Diayante (1000 FCFA)</option>
+                            <option value="both">Les deux types</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-result" id="individual-result" style="background: #f0fdf4; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+                        <h4 style="color: #059669; margin-bottom: 0.5rem;">Résultat du calcul</h4>
+                        <div id="individual-details"></div>
+                    </div>
+                </div>
+
+                <!-- Calculateur Global -->
+                <div class="member-card">
+                    <h3 style="font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem;">Calculateur Global</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Nombre de membres</label>
+                        <input type="number" id="calc-total-members" class="form-input" value="10" min="1" onchange="calculateGlobalContributions()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Période (mois)</label>
+                        <input type="number" id="calc-global-period" class="form-input" value="1" min="1" max="12" onchange="calculateGlobalContributions()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Taux de participation hebdomadaire (%)</label>
+                        <input type="number" id="calc-hebdo-rate" class="form-input" value="80" min="0" max="100" onchange="calculateGlobalContributions()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Taux de participation mensuelle (%)</label>
+                        <input type="number" id="calc-mensuel-rate" class="form-input" value="60" min="0" max="100" onchange="calculateGlobalContributions()">
+                    </div>
+
+                    <div class="calc-result" id="global-result" style="background: #f0fdf4; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+                        <h4 style="color: #059669; margin-bottom: 0.5rem;">Projections globales</h4>
+                        <div id="global-details"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculateur de Scénarios -->
+            <div class="member-card" style="margin-top: 2rem;">
+                <h3 style="font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem;">Scénarios de Projection</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <div class="scenario-card" style="background: #fef3c7; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                        <h4 style="color: #92400e; margin-bottom: 0.5rem;">Scénario Optimiste</h4>
+                        <p style="color: #78350f; margin-bottom: 0.5rem;">100% participation</p>
+                        <button class="btn-primary" onclick="runScenario('optimiste')">Calculer</button>
+                        <div id="scenario-optimiste" style="margin-top: 0.5rem; font-weight: bold;"></div>
+                    </div>
+
+                    <div class="scenario-card" style="background: #fed7d7; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                        <h4 style="color: #991b1b; margin-bottom: 0.5rem;">Scénario Réaliste</h4>
+                        <p style="color: #7f1d1d; margin-bottom: 0.5rem;">70% participation</p>
+                        <button class="btn-primary" onclick="runScenario('realiste')">Calculer</button>
+                        <div id="scenario-realiste" style="margin-top: 0.5rem; font-weight: bold;"></div>
+                    </div>
+
+                    <div class="scenario-card" style="background: #e0e7ff; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                        <h4 style="color: #3730a3; margin-bottom: 0.5rem;">Scénario Pessimiste</h4>
+                        <p style="color: #312e81; margin-bottom: 0.5rem;">40% participation</p>
+                        <button class="btn-primary" onclick="runScenario('pessimiste')">Calculer</button>
+                        <div id="scenario-pessimiste" style="margin-top: 0.5rem; font-weight: bold;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reçu PDF -->
+    <div id="receipt" class="receipt">
+        <div class="receipt-header">
+            <h2 class="receipt-title">🕌 Dahira Kenal</h2>
+            <p class="receipt-subtitle">Reçu de Cotisation</p>
+        </div>
+        <div class="receipt-body">
+            <div class="receipt-row">
+                <span class="receipt-label">Membre:</span>
+                <span class="receipt-value" id="receipt-membre"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Type de Cotisation:</span>
+                <span class="receipt-value" id="receipt-type"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Montant:</span>
+                <span class="receipt-value" id="receipt-montant"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Date:</span>
+                <span class="receipt-value" id="receipt-date"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Référence:</span>
+                <span class="receipt-value" id="receipt-ref"></span>
+            </div>
+        </div>
+        <div class="receipt-total">
+            Montant Payé: <span id="receipt-total"></span> FCFA
+        </div>
+        <div class="receipt-footer">
+            Merci pour votre contribution à la Dahira Kenal.<br>
+            Reçu généré le <span id="receipt-generated"></span>
+        </div>
+    </div>
+
+    <!-- Modal Membre -->
+    <div id="modal-membre" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-membre-title">Nouveau Membre</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nom</label>
+                    <input type="text" id="membre-nom" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prénom</label>
+                    <input type="text" id="membre-prenom" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Téléphone</label>
+                    <input type="tel" id="membre-tel" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date d'adhésion</label>
+                    <input type="date" id="membre-date" class="form-input">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary" style="flex: 1;" onclick="saveMembre()">Enregistrer</button>
+                    <button class="btn-secondary" onclick="closeModal('modal-membre')">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Paiement -->
+    <div id="modal-paiement" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajouter un Paiement</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Type de caisse</label>
+                    <select id="payment-type" class="form-select" onchange="updatePaymentAmount()">
+                        <option value="hebdomadaire">Hebdomadaire (250 FCFA)</option>
+                        <option value="mensuelle">Mensuelle (500 FCFA)</option>
+                        <option value="diayante">Diayante (1000 FCFA)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Montant (FCFA)</label>
+                    <input type="number" id="payment-montant" class="form-input" value="250">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="payment-date" class="form-input">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary" style="flex: 1;" onclick="savePayment()">Enregistrer</button>
+                    <button class="btn-secondary" onclick="closeModal('modal-paiement')">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Historique Membre -->
+    <div id="modal-historique" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="historique-title">Historique des Paiements</h3>
+                <button class="btn-close" onclick="closeModal('modal-historique')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="member-info" style="background: #f3f4f6; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <h4 id="historique-membre-name" style="margin: 0; color: #1f2937;"></h4>
+                    <p id="historique-membre-details" style="margin: 0.5rem 0 0 0; color: #6b7280; font-size: 0.875rem;"></p>
+                </div>
+                <div class="historique-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="stat-card" style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #059669;" id="historique-total-hebdo">0</div>
+                        <div style="color: #6b7280; font-size: 0.875rem;">Hebdomadaire</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #059669;" id="historique-total-mensuel">0</div>
+                        <div style="color: #6b7280; font-size: 0.875rem;">Mensuelle</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #7c3aed;" id="historique-total-diayante">0</div>
+                        <div style="color: #6b7280; font-size: 0.875rem;">Diayante</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center; padding: 1rem; background: #ecfdf5; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #059669;" id="historique-total-global">0</div>
+                        <div style="color: #6b7280; font-size: 0.875rem;">Total</div>
+                    </div>
+                </div>
+                <div class="historique-table">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f9fafb;">
+                                <th style="padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151;">Date</th>
+                                <th style="padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151;">Type</th>
+                                <th style="padding: 0.75rem; text-align: right; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151;">Montant</th>
+                                <th style="padding: 0.75rem; text-align: center; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historique-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let membres = JSON.parse(localStorage.getItem('dahira-membres')) || [];
+        let payments = JSON.parse(localStorage.getItem('dahira-payments')) || [];
+        let editingMembreId = null;
+        let currentMembreId = null;
+        let searchTerm = '';
+        let filters = { ok: true, late: true };
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            if (tabName === 'stats') {
+                updateStats();
+                initializePeriodSelectors();
+            } else if (tabName === 'calendrier') {
+                renderCalendar();
+            } else if (tabName === 'calculateur') {
+                loadMemberData();
+                calculateGlobalContributions();
+            }
+        }
+
+        function openModal(type, membreId = null) {
+            if (type === 'addMember') {
+                document.getElementById('modal-membre-title').textContent = 'Nouveau Membre';
+                document.getElementById('membre-nom').value = '';
+                document.getElementById('membre-prenom').value = '';
+                document.getElementById('membre-tel').value = '';
+                document.getElementById('membre-date').value = new Date().toISOString().split('T')[0];
+                editingMembreId = null;
+                document.getElementById('modal-membre').classList.add('active');
+            } else if (type === 'editMember') {
+                const membre = membres.find(m => m.id === membreId);
+                document.getElementById('modal-membre-title').textContent = 'Modifier le Membre';
+                document.getElementById('membre-nom').value = membre.nom;
+                document.getElementById('membre-prenom').value = membre.prenom;
+                document.getElementById('membre-tel').value = membre.telephone;
+                document.getElementById('membre-date').value = membre.dateAdhesion;
+                editingMembreId = membreId;
+                document.getElementById('modal-membre').classList.add('active');
+            } else if (type === 'addPayment') {
+                currentMembreId = membreId;
+                document.getElementById('payment-date').value = new Date().toISOString().split('T')[0];
+                document.getElementById('payment-type').value = 'hebdomadaire';
+                document.getElementById('payment-montant').value = '250';
+                document.getElementById('modal-paiement').classList.add('active');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function saveMembre() {
+            const nom = document.getElementById('membre-nom').value.trim();
+            const prenom = document.getElementById('membre-prenom').value.trim();
+            const telephone = document.getElementById('membre-tel').value.trim();
+            const dateAdhesion = document.getElementById('membre-date').value;
+
+            if (!nom || !prenom || !telephone) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+
+            if (editingMembreId) {
+                const index = membres.findIndex(m => m.id === editingMembreId);
+                membres[index] = { id: editingMembreId, nom, prenom, telephone, dateAdhesion };
+            } else {
+                membres.push({
+                    id: Date.now().toString(),
+                    nom,
+                    prenom,
+                    telephone,
+                    dateAdhesion
+                });
+            }
+
+            localStorage.setItem('dahira-membres', JSON.stringify(membres));
+            renderMembres();
+            closeModal('modal-membre');
+        }
+
+        function deleteMembre(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce membre ?')) {
+                membres = membres.filter(m => m.id !== id);
+                payments = payments.filter(p => p.memberId !== id);
+                localStorage.setItem('dahira-membres', JSON.stringify(membres));
+                localStorage.setItem('dahira-payments', JSON.stringify(payments));
+                renderMembres();
+                renderPayments();
+            }
+        }
+
+        function savePayment() {
+            const montant = document.getElementById('payment-montant').value;
+            const type = document.getElementById('payment-type').value;
+            const date = document.getElementById('payment-date').value;
+
+            if (!montant) {
+                alert('Veuillez entrer le montant');
+                return;
+            }
+
+            payments.push({
+                id: Date.now().toString(),
+                memberId: currentMembreId,
+                montant: parseFloat(montant),
+                type,
+                date
+            });
+
+            localStorage.setItem('dahira-payments', JSON.stringify(payments));
+            renderMembres();
+            renderPayments();
+            closeModal('modal-paiement');
+        }
+
+        function updatePaymentAmount() {
+            const type = document.getElementById('payment-type').value;
+            const amount = type === 'hebdomadaire' ? '250' : type === 'mensuelle' ? '500' : '1000';
+            document.getElementById('payment-montant').value = amount;
+        }
+
+        function getMemberStats(memberId) {
+            const memberPayments = payments.filter(p => p.memberId === memberId);
+            const hebdo = memberPayments.filter(p => p.type === 'hebdomadaire').reduce((sum, p) => sum + p.montant, 0);
+            const mensuel = memberPayments.filter(p => p.type === 'mensuelle').reduce((sum, p) => sum + p.montant, 0);
+            const diayante = memberPayments.filter(p => p.type === 'diayante').reduce((sum, p) => sum + p.montant, 0);
+            return { hebdo, mensuel, diayante, total: hebdo + mensuel + diayante };
+        }
+
+        function getPaymentStatus(memberId) {
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            
+            const currentMonthPayments = payments.filter(p => {
+                const paymentDate = new Date(p.date);
+                return p.memberId === memberId && paymentDate.getMonth() === currentMonth;
+            });
+
+            const hasWeekly = currentMonthPayments.some(p => p.type === 'hebdomadaire');
+            const hasMonthly = currentMonthPayments.some(p => p.type === 'mensuelle');
+
+            return (hasWeekly && hasMonthly) ? 'À jour' : 'En retard';
+        }
+
+        function renderMembres() {
+            const list = document.getElementById('membres-list');
+            let filteredMembres = membres.filter(membre => {
+                const fullName = `${membre.prenom} ${membre.nom}`.toLowerCase();
+                const matchesSearch = fullName.includes(searchTerm.toLowerCase());
+                const status = getPaymentStatus(membre.id);
+                const matchesFilter = (status === 'À jour' && filters.ok) || (status === 'En retard' && filters.late);
+                return matchesSearch && matchesFilter;
+            });
+            document.getElementById('membre-count').textContent = filteredMembres.length;
+
+            if (filteredMembres.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <p style="font-size: 1.125rem; color: #6b7280; margin-bottom: 0.5rem;">Aucun membre trouvé</p>
+                        <p style="color: #9ca3af;">Essayez de modifier vos critères de recherche</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = filteredMembres.map(membre => {
+                const stats = getMemberStats(membre.id);
+                const status = getPaymentStatus(membre.id);
+                return `
+                    <div class="member-card">
+                        <div class="member-header">
+                            <div>
+                                <div class="member-name">${membre.prenom} ${membre.nom}</div>
+                                <div class="member-date">📅 Adhésion: ${new Date(membre.dateAdhesion).toLocaleDateString('fr-FR')}</div>
+                                <span class="status-badge ${status === 'À jour' ? 'status-ok' : 'status-late'}">${status}</span>
+                            </div>
+                            <div class="member-actions">
+                                <a href="tel:${membre.telephone}" class="btn-icon btn-call">📞</a>
+                                <button class="btn-icon btn-history" onclick="showMemberHistory('${membre.id}')" title="Voir Historique">📊</button>
+                                <button class="btn-icon btn-edit" onclick="openModal('editMember', '${membre.id}')">✏️</button>
+                                <button class="btn-icon btn-delete" onclick="deleteMembre('${membre.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Hebdomadaire</div>
+                                <div class="stat-value">${stats.hebdo} FCFA</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Mensuelle</div>
+                                <div class="stat-value">${stats.mensuel} FCFA</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Total</div>
+                                <div class="stat-value" style="color: #1f2937;">${stats.total} FCFA</div>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 1rem;" onclick="openModal('addPayment', '${membre.id}')">
+                            Ajouter un paiement
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPayments() {
+            const list = document.getElementById('payments-list');
+            document.getElementById('payment-count').textContent = payments.length;
+
+            if (payments.length === 0) {
+                list.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 3rem; color: #6b7280;">
+                            Aucun paiement enregistré
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sorted = [...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
+            list.innerHTML = sorted.map(payment => {
+                const membre = membres.find(m => m.id === payment.memberId);
+                return `
+                    <tr>
+                        <td data-label="Date">${new Date(payment.date).toLocaleDateString('fr-FR')}</td>
+                        <td data-label="Membre"><strong>${membre ? `${membre.prenom} ${membre.nom}` : 'Inconnu'}</strong></td>
+                        <td data-label="Type">
+                            <span class="payment-type ${payment.type === 'hebdomadaire' ? 'type-hebdo' : 'type-mensuel'}">
+                                ${payment.type === 'hebdomadaire' ? 'Hebdomadaire' : 'Mensuelle'}
+                            </span>
+                        </td>
+                        <td data-label="Montant" style="text-align: right; font-weight: bold;">${payment.montant} FCFA</td>
+                        <td data-label="Actions">
+                            <button class="btn-icon btn-print" onclick="generateReceipt('${payment.id}')" title="Imprimer Reçu">
+                                🖨️
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            const hebdo = payments.filter(p => p.type === 'hebdomadaire').reduce((sum, p) => sum + p.montant, 0);
+            const mensuel = payments.filter(p => p.type === 'mensuelle').reduce((sum, p) => sum + p.montant, 0);
+            const diayante = payments.filter(p => p.type === 'diayante').reduce((sum, p) => sum + p.montant, 0);
+            const total = hebdo + mensuel + diayante;
+
+            document.getElementById('total-hebdo').textContent = hebdo;
+            document.getElementById('total-mensuel').textContent = mensuel;
+            document.getElementById('total-diayante').textContent = diayante;
+            document.getElementById('total-global').textContent = total;
+
+            const details = document.getElementById('stats-details');
+            details.innerHTML = `
+                <div class="member-card">
+                    <h3 style="font-size: 1.25rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem;">Détails par Membre</h3>
+                    ${membres.map(membre => {
+                        const stats = getMemberStats(membre.id);
+                        return `
+                            <div style="border-left: 4px solid #059669; padding-left: 1rem; margin-bottom: 1rem;">
+                                <h4 style="font-weight: bold; color: #1f2937;">${membre.prenom} ${membre.nom}</h4>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 0.5rem; font-size: 0.875rem;">
+                                    <div><span style="color: #6b7280;">Hebdo:</span> <span style="font-weight: 600;">${stats.hebdo} FCFA</span></div>
+                                    <div><span style="color: #6b7280;">Mensuel:</span> <span style="font-weight: 600;">${stats.mensuel} FCFA</span></div>
+                                    <div><span style="color: #6b7280;">Diayante:</span> <span style="font-weight: 600;">${stats.diayante} FCFA</span></div>
+                                    <div><span style="color: #6b7280;">Total:</span> <span style="font-weight: bold; color: #059669;">${stats.total} FCFA</span></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Fonction pour initialiser les sélecteurs de périodes
+        function initializePeriodSelectors() {
+            const period1Select = document.getElementById('period1-select');
+            const period2Select = document.getElementById('period2-select');
+
+            // Générer les options de périodes (derniers 12 mois)
+            const now = new Date();
+            const options = [];
+
+            for (let i = 0; i < 12; i++) {
+                const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const monthName = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                options.push(`<option value="${value}">${monthName}</option>`);
+            }
+
+            const optionsHtml = options.join('');
+            period1Select.innerHTML = '<option value="">Sélectionner une période...</option>' + optionsHtml;
+            period2Select.innerHTML = '<option value="">Sélectionner une période...</option>' + optionsHtml;
+        }
+
+        // Fonction pour comparer deux périodes
+        function comparePeriods() {
+            const period1 = document.getElementById('period1-select').value;
+            const period2 = document.getElementById('period2-select').value;
+
+            if (!period1 || !period2) {
+                alert('Veuillez sélectionner deux périodes à comparer.');
+                return;
+            }
+
+            if (period1 === period2) {
+                alert('Veuillez sélectionner deux périodes différentes.');
+                return;
+            }
+
+            // Calculer les statistiques pour chaque période
+            const stats1 = calculatePeriodStats(period1);
+            const stats2 = calculatePeriodStats(period2);
+
+            // Calculer les différences
+            const diffHebdo = stats2.hebdo - stats1.hebdo;
+            const diffMensuel = stats2.mensuel - stats1.mensuel;
+            const diffTotal = stats2.total - stats1.total;
+            const diffMembres = stats2.membresActifs - stats1.membresActifs;
+
+            // Formater les noms des périodes
+            const period1Name = formatPeriodName(period1);
+            const period2Name = formatPeriodName(period2);
+
+            // Afficher les résultats
+            const resultsDiv = document.getElementById('comparison-results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>📅 ${period1Name}</h4>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Hebdomadaires</span>
+                            <span class="metric-value">${stats1.hebdo} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Mensuelles</span>
+                            <span class="metric-value">${stats1.mensuel} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Total Collecté</span>
+                            <span class="metric-value">${stats1.total} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Membres Actifs</span>
+                            <span class="metric-value">${stats1.membresActifs}</span>
+                        </div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <h4>📅 ${period2Name}</h4>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Hebdomadaires</span>
+                            <span class="metric-value">${stats2.hebdo} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Mensuelles</span>
+                            <span class="metric-value">${stats2.mensuel} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Total Collecté</span>
+                            <span class="metric-value">${stats2.total} FCFA</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Membres Actifs</span>
+                            <span class="metric-value">${stats2.membresActifs}</span>
+                        </div>
+                    </div>
+
+                    <div class="comparison-card">
+                        <h4>📊 Évolution</h4>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Hebdomadaires</span>
+                            <span class="metric-change ${getChangeClass(diffHebdo)}">${getChangeText(diffHebdo)}</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Cotisations Mensuelles</span>
+                            <span class="metric-change ${getChangeClass(diffMensuel)}">${getChangeText(diffMensuel)}</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Total Collecté</span>
+                            <span class="metric-change ${getChangeClass(diffTotal)}">${getChangeText(diffTotal)}</span>
+                        </div>
+                        <div class="comparison-metric">
+                            <span class="metric-label">Membres Actifs</span>
+                            <span class="metric-change ${getChangeClass(diffMembres)}">${getChangeText(diffMembres, true)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonction pour calculer les statistiques d'une période donnée
+        function calculatePeriodStats(period) {
+            const [year, month] = period.split('-').map(Number);
+            const periodStart = new Date(year, month - 1, 1);
+            const periodEnd = new Date(year, month, 0); // Dernier jour du mois
+
+            // Filtrer les paiements de la période
+            const periodPayments = payments.filter(payment => {
+                const paymentDate = new Date(payment.date);
+                return paymentDate >= periodStart && paymentDate <= periodEnd;
+            });
+
+            // Calculer les totaux
+            const hebdo = periodPayments.filter(p => p.type === 'hebdomadaire').reduce((sum, p) => sum + p.montant, 0);
+            const mensuel = periodPayments.filter(p => p.type === 'mensuelle').reduce((sum, p) => sum + p.montant, 0);
+            const total = hebdo + mensuel;
+
+            // Compter les membres actifs (ceux qui ont fait au moins un paiement)
+            const membresActifs = new Set(periodPayments.map(p => p.membreId)).size;
+
+            return {
+                hebdo,
+                mensuel,
+                total,
+                membresActifs
+            };
+        }
+
+        // Fonction pour formater le nom d'une période
+        function formatPeriodName(period) {
+            const [year, month] = period.split('-').map(Number);
+            const date = new Date(year, month - 1, 1);
+            return date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+        }
+
+        // Fonction pour déterminer la classe CSS d'un changement
+        function getChangeClass(diff) {
+            if (diff > 0) return 'change-positive';
+            if (diff < 0) return 'change-negative';
+            return 'change-neutral';
+        }
+
+        // Fonction pour formater le texte d'un changement
+        function getChangeText(diff, isCount = false) {
+            const sign = diff > 0 ? '+' : '';
+            const unit = isCount ? (diff === 1 || diff === -1 ? ' membre' : ' membres') : ' FCFA';
+            return `${sign}${diff}${unit}`;
+        }
+
+        // Initialisation
+        renderMembres();
+        renderPayments();
+        initializePeriodSelectors();
+        initializeDeviceDetection();
+
+        // Fonction de détection d'appareil pour optimisations dynamiques
+        function initializeDeviceDetection() {
+            const isMobile = window.innerWidth <= 768;
+            const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+            const isDesktop = window.innerWidth > 1024;
+
+            // Ajouter des classes au body selon le type d'appareil
+            document.body.classList.remove('device-mobile', 'device-tablet', 'device-desktop');
+            if (isMobile) {
+                document.body.classList.add('device-mobile');
+            } else if (isTablet) {
+                document.body.classList.add('device-tablet');
+            } else {
+                document.body.classList.add('device-desktop');
+            }
+
+            // Optimisations spécifiques selon l'appareil
+            if (isMobile) {
+                // Désactiver les hover effects sur mobile
+                document.body.style.setProperty('--hover-enabled', 'none');
+            }
+
+            // Ajuster la hauteur des modales selon l'appareil
+            const modals = document.querySelectorAll('.modal-content');
+            modals.forEach(modal => {
+                if (isMobile) {
+                    modal.style.maxHeight = '90vh';
+                    modal.style.height = 'auto';
+                } else if (isTablet) {
+                    modal.style.maxHeight = '80vh';
+                } else {
+                    modal.style.maxHeight = '70vh';
+                }
+            });
+        }
+
+        // Redétecter l'appareil lors du redimensionnement
+        window.addEventListener('resize', function() {
+            // Debounce pour éviter trop d'appels
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(initializeDeviceDetection, 250);
+        });
+
+        // Event listeners pour la recherche et les filtres
+        document.getElementById('search-input').addEventListener('input', function() {
+            searchTerm = this.value;
+            renderMembres();
+        });
+
+        document.getElementById('filter-ok').addEventListener('change', function() {
+            filters.ok = this.checked;
+            renderMembres();
+        });
+
+        document.getElementById('filter-late').addEventListener('change', function() {
+            filters.late = this.checked;
+            renderMembres();
+        });
+
+        // Fonction d'export
+        function exportData() {
+            const data = {
+                membres: membres,
+                payments: payments,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `dahira-kenal-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            alert('✅ Données exportées avec succès !');
+        }
+
+        // Fonction d'import
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (!data.membres || !data.payments) {
+                        alert('❌ Fichier invalide !');
+                        return;
+                    }
+
+                    if (confirm('⚠️ Attention : Cela va remplacer toutes vos données actuelles. Continuer ?')) {
+                        membres = data.membres;
+                        payments = data.payments;
+                        
+                        localStorage.setItem('dahira-membres', JSON.stringify(membres));
+                        localStorage.setItem('dahira-payments', JSON.stringify(payments));
+                        
+                        renderMembres();
+                        renderPayments();
+                        updateStats();
+                        
+                        alert('✅ Données importées avec succès !');
+                    }
+                } catch (error) {
+                    alert('❌ Erreur lors de l\'importation : ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset input
+            event.target.value = '';
+        }
+
+        // Fonction pour générer le reçu PDF
+        function generateReceipt(paymentId) {
+            const payment = payments.find(p => p.id === paymentId);
+            if (!payment) return;
+
+            const membre = membres.find(m => m.id === payment.memberId);
+            if (!membre) return;
+
+            // Remplir les données du reçu
+            document.getElementById('receipt-membre').textContent = `${membre.prenom} ${membre.nom}`;
+            document.getElementById('receipt-type').textContent = payment.type === 'hebdomadaire' ? 'Hebdomadaire' : 'Mensuelle';
+            document.getElementById('receipt-montant').textContent = payment.montant + ' FCFA';
+            document.getElementById('receipt-date').textContent = new Date(payment.date).toLocaleDateString('fr-FR');
+            document.getElementById('receipt-ref').textContent = payment.id;
+            document.getElementById('receipt-total').textContent = payment.montant;
+            document.getElementById('receipt-generated').textContent = new Date().toLocaleDateString('fr-FR');
+
+            // Afficher le reçu
+            const receipt = document.getElementById('receipt');
+            receipt.style.display = 'block';
+
+            // Imprimer (ce qui génère le PDF)
+            window.print();
+
+            // Masquer après impression
+            setTimeout(() => {
+                receipt.style.display = 'none';
+            }, 1000);
+        }
+
+        // Fonction pour afficher l'historique d'un membre
+        function showMemberHistory(membreId) {
+            const membre = membres.find(m => m.id === membreId);
+            if (!membre) return;
+
+            // Remplir les informations du membre
+            document.getElementById('historique-title').textContent = `Historique de ${membre.prenom} ${membre.nom}`;
+            document.getElementById('historique-membre-name').textContent = `${membre.prenom} ${membre.nom}`;
+            document.getElementById('historique-membre-details').textContent = `📅 Adhésion: ${new Date(membre.dateAdhesion).toLocaleDateString('fr-FR')} | 📞 ${membre.telephone}`;
+
+            // Calculer les statistiques
+            const memberPayments = payments.filter(p => p.memberId === membreId);
+            const hebdo = memberPayments.filter(p => p.type === 'hebdomadaire').reduce((sum, p) => sum + p.montant, 0);
+            const mensuel = memberPayments.filter(p => p.type === 'mensuelle').reduce((sum, p) => sum + p.montant, 0);
+            const diayante = memberPayments.filter(p => p.type === 'diayante').reduce((sum, p) => sum + p.montant, 0);
+            const total = hebdo + mensuel + diayante;
+
+            document.getElementById('historique-total-hebdo').textContent = hebdo;
+            document.getElementById('historique-total-mensuel').textContent = mensuel;
+            document.getElementById('historique-total-diayante').textContent = diayante;
+            document.getElementById('historique-total-global').textContent = total;
+
+            // Afficher les paiements
+            renderMemberHistory(membreId);
+
+            // Ouvrir la modale
+            document.getElementById('modal-historique').classList.add('active');
+        }
+
+        // Fonction pour rendre l'historique des paiements d'un membre
+        function renderMemberHistory(membreId) {
+            const list = document.getElementById('historique-list');
+            const memberPayments = payments.filter(p => p.memberId === membreId);
+
+            if (memberPayments.length === 0) {
+                list.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: #6b7280;">
+                            Aucun paiement enregistré pour ce membre
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const sorted = [...memberPayments].sort((a, b) => new Date(b.date) - new Date(a.date));
+            list.innerHTML = sorted.map(payment => `
+                <tr>
+                    <td style="padding: 0.75rem; border-bottom: 1px solid #e5e7eb;">${new Date(payment.date).toLocaleDateString('fr-FR')}</td>
+                    <td style="padding: 0.75rem; border-bottom: 1px solid #e5e7eb;">
+                        <span class="payment-type ${payment.type === 'hebdomadaire' ? 'type-hebdo' : payment.type === 'mensuelle' ? 'type-mensuel' : 'type-diayante'}">
+                            ${payment.type === 'hebdomadaire' ? 'Hebdomadaire' : payment.type === 'mensuelle' ? 'Mensuelle' : 'Diayante'}
+                        </span>
+                    </td>
+                    <td style="padding: 0.75rem; border-bottom: 1px solid #e5e7eb; text-align: right; font-weight: bold;">${payment.montant} FCFA</td>
+                    <td style="padding: 0.75rem; border-bottom: 1px solid #e5e7eb; text-align: center;">
+                        <button class="btn-icon btn-print" onclick="generateReceipt('${payment.id}')" title="Imprimer Reçu">🖨️</button>
+                    </td>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Variables pour le calendrier
+        let currentCalendarDate = new Date();
+
+        // Fonction pour afficher le calendrier
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const monthYear = document.getElementById('calendar-month-year');
+
+            // En-têtes des jours
+            const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+            let html = dayNames.map(day => `<div class="calendar-day-header" style="background: #f3f4f6; padding: 0.75rem; text-align: center; font-weight: bold; color: #374151;">${day}</div>`).join('');
+
+            // Calculer le premier jour du mois
+            const firstDay = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1);
+            const lastDay = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth() + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            // Générer les jours
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let i = 0; i < 42; i++) { // 6 semaines * 7 jours
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+
+                const isCurrentMonth = date.getMonth() === currentCalendarDate.getMonth();
+                const isToday = date.toDateString() === today.toDateString();
+
+                // Trouver les paiements pour cette date
+                const dayPayments = payments.filter(p => {
+                    const paymentDate = new Date(p.date);
+                    return paymentDate.toDateString() === date.toDateString();
+                });
+
+                // Grouper par membre
+                const paymentsByMember = {};
+                dayPayments.forEach(payment => {
+                    if (!paymentsByMember[payment.memberId]) {
+                        paymentsByMember[payment.memberId] = { hebdo: false, mensuel: false };
+                    }
+                    if (payment.type === 'hebdomadaire') {
+                        paymentsByMember[payment.memberId].hebdo = true;
+                    } else {
+                        paymentsByMember[payment.memberId].mensuel = true;
+                    }
+                });
+
+                // Créer les indicateurs
+                let indicators = '';
+                let totalAmount = 0;
+                Object.keys(paymentsByMember).forEach(memberId => {
+                    const member = membres.find(m => m.id === memberId);
+                    const payment = dayPayments.find(p => p.memberId === memberId);
+                    if (payment) totalAmount += payment.montant;
+
+                    if (paymentsByMember[memberId].hebdo && paymentsByMember[memberId].mensuel) {
+                        indicators += '<span class="payment-indicator payment-both" title="Les deux types"></span>';
+                    } else if (paymentsByMember[memberId].hebdo) {
+                        indicators += '<span class="payment-indicator payment-hebdo" title="Hebdomadaire"></span>';
+                    } else if (paymentsByMember[memberId].mensuel) {
+                        indicators += '<span class="payment-indicator payment-mensuel" title="Mensuel"></span>';
+                    }
+                });
+
+                const dayClass = `calendar-day ${isCurrentMonth ? '' : 'other-month'} ${isToday ? 'today' : ''}`;
+                const tooltipId = `tooltip-${date.getTime()}`;
+
+                html += `
+                    <div class="${dayClass}" onclick="showDayTooltip('${date.toISOString()}', '${tooltipId}')">
+                        <div style="font-size: 1.125rem; font-weight: bold; margin-bottom: 0.25rem;">${date.getDate()}</div>
+                        <div style="display: flex; flex-wrap: wrap;">${indicators}</div>
+                        ${totalAmount > 0 ? `<div class="calendar-day-details">${totalAmount}F</div>` : ''}
+                        <div id="${tooltipId}" class="calendar-tooltip">
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">${date.toLocaleDateString('fr-FR')}</div>
+                            ${dayPayments.length > 0 ? dayPayments.map(payment => {
+                                const membre = membres.find(m => m.id === payment.memberId);
+                                return `<div class="tooltip-payment">
+                                    <strong>${membre ? `${membre.prenom} ${membre.nom}` : 'Inconnu'}</strong><br>
+                                    ${payment.type === 'hebdomadaire' ? 'Hebdomadaire' : 'Mensuelle'} - ${payment.montant} FCFA
+                                </div>`;
+                            }).join('') : '<div class="tooltip-payment">Aucun paiement</div>'}
+                        </div>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = html;
+            monthYear.textContent = currentCalendarDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        }
+
+        // Fonction pour naviguer au mois précédent
+        function previousMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        // Fonction pour naviguer au mois suivant
+        function nextMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        // Fonction pour afficher le tooltip d'un jour
+        function showDayTooltip(dateStr, tooltipId) {
+            // Masquer tous les tooltips
+            document.querySelectorAll('.calendar-tooltip').forEach(t => t.classList.remove('show'));
+
+            // Afficher le tooltip sélectionné
+            const tooltip = document.getElementById(tooltipId);
+            if (tooltip) {
+                tooltip.classList.add('show');
+
+                // Masquer après 3 secondes
+                setTimeout(() => {
+                    tooltip.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Fonctions du calculateur de cotisations
+        function loadMemberData() {
+            const select = document.getElementById('calc-member-select');
+            select.innerHTML = '<option value="">Choisir un membre...</option>';
+
+            membres.forEach(membre => {
+                const option = document.createElement('option');
+                option.value = membre.id;
+                option.textContent = `${membre.prenom} ${membre.nom}`;
+                select.appendChild(option);
+            });
+
+            calculateContributions();
+        }
+
+        function calculateContributions() {
+            const memberId = document.getElementById('calc-member-select').value;
+            const period = parseInt(document.getElementById('calc-period').value) || 1;
+            const frequency = document.getElementById('calc-frequency').value;
+            const resultDiv = document.getElementById('individual-details');
+
+            if (!memberId) {
+                resultDiv.innerHTML = '<p style="color: #6b7280;">Sélectionnez un membre pour voir le calcul.</p>';
+                return;
+            }
+
+            const membre = membres.find(m => m.id === memberId);
+            if (!membre) return;
+
+            // Calculer les paiements réels du membre
+            const memberPayments = payments.filter(p => p.memberId === memberId);
+            const hebdoPaid = memberPayments.filter(p => p.type === 'hebdomadaire').reduce((sum, p) => sum + p.montant, 0);
+            const mensuelPaid = memberPayments.filter(p => p.type === 'mensuelle').reduce((sum, p) => sum + p.montant, 0);
+            const diayantePaid = memberPayments.filter(p => p.type === 'diayante').reduce((sum, p) => sum + p.montant, 0);
+            const totalPaid = hebdoPaid + mensuelPaid + diayantePaid;
+
+            // Calculer ce qui devrait être payé
+            const startDate = new Date(membre.dateAdhesion);
+            const currentDate = new Date();
+            const monthsSinceJoin = Math.max(1, Math.ceil((currentDate - startDate) / (1000 * 60 * 60 * 24 * 30)));
+
+            let hebdoDue = 0;
+            let mensuelDue = 0;
+            let diayanteDue = 0;
+
+            if (frequency === 'hebdomadaire' || frequency === 'both') {
+                hebdoDue = 250 * 4 * Math.min(period, monthsSinceJoin); // 4 semaines par mois
+            }
+
+            if (frequency === 'mensuelle' || frequency === 'both') {
+                mensuelDue = 500 * Math.min(period, monthsSinceJoin);
+            }
+
+            if (frequency === 'diayante') {
+                diayanteDue = 1000 * Math.min(period, monthsSinceJoin);
+            }
+
+            const totalDue = hebdoDue + mensuelDue + diayanteDue;
+            const balance = totalDue - totalPaid;
+            const status = balance <= 0 ? 'À jour' : 'En retard';
+
+            resultDiv.innerHTML = `
+                <div style="margin-bottom: 0.5rem;"><strong>Membre:</strong> ${membre.prenom} ${membre.nom}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Date d'adhésion:</strong> ${new Date(membre.dateAdhesion).toLocaleDateString('fr-FR')}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Mois depuis l'adhésion:</strong> ${monthsSinceJoin}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Période analysée:</strong> ${period} mois</div>
+                <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
+                <div style="margin-bottom: 0.5rem;"><strong>Total payé:</strong> ${totalPaid} FCFA</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Dû pour la période:</strong> ${totalDue} FCFA</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Solde: <span style="color: ${balance > 0 ? '#dc2626' : '#059669'};">${balance > 0 ? '+' : ''}${balance} FCFA</span></strong></div>
+                <div style="margin-bottom: 0.5rem;"><strong>Statut:</strong> <span style="color: ${status === 'À jour' ? '#059669' : '#dc2626'};">${status}</span></div>
+                ${balance > 0 ? `<div style="background: #fef2f2; padding: 0.5rem; border-radius: 0.25rem; margin-top: 0.5rem;"><strong>💰 Montant restant à payer: ${balance} FCFA</strong></div>` : ''}
+            `;
+        }
+
+        function calculateGlobalContributions() {
+            const totalMembers = parseInt(document.getElementById('calc-total-members').value) || 10;
+            const period = parseInt(document.getElementById('calc-global-period').value) || 1;
+            const hebdoRate = (parseInt(document.getElementById('calc-hebdo-rate').value) || 80) / 100;
+            const mensuelRate = (parseInt(document.getElementById('calc-mensuel-rate').value) || 60) / 100;
+            const resultDiv = document.getElementById('global-details');
+
+            const hebdoParticipants = Math.round(totalMembers * hebdoRate);
+            const mensuelParticipants = Math.round(totalMembers * mensuelRate);
+
+            const hebdoTotal = hebdoParticipants * 250 * 4 * period;
+            const mensuelTotal = mensuelParticipants * 500 * period;
+            const grandTotal = hebdoTotal + mensuelTotal;
+
+            resultDiv.innerHTML = `
+                <div style="margin-bottom: 0.5rem;"><strong>Nombre total de membres:</strong> ${totalMembers}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Période:</strong> ${period} mois</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Participants hebdomadaires:</strong> ${hebdoParticipants} (${(hebdoRate * 100).toFixed(0)}%)</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Participants mensuels:</strong> ${mensuelParticipants} (${(mensuelRate * 100).toFixed(0)}%)</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Total hebdomadaire:</strong> ${hebdoTotal} FCFA</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Total mensuel:</strong> ${mensuelTotal} FCFA</div>
+                <div style="font-size: 1.1rem; font-weight: bold; color: #059669;"><strong>Projection totale: ${grandTotal} FCFA</strong></div>
+            `;
+        }
+
+        function runScenario(type) {
+            const totalMembers = parseInt(document.getElementById('calc-total-members').value) || 10;
+            const period = parseInt(document.getElementById('calc-global-period').value) || 1;
+
+            let hebdoRate, mensuelRate, scenarioName;
+
+            switch (type) {
+                case 'optimiste':
+                    hebdoRate = 1.0;
+                    mensuelRate = 1.0;
+                    scenarioName = 'Optimiste (100%)';
+                    break;
+                case 'realiste':
+                    hebdoRate = 0.7;
+                    mensuelRate = 0.7;
+                    scenarioName = 'Réaliste (70%)';
+                    break;
+                case 'pessimiste':
+                    hebdoRate = 0.4;
+                    mensuelRate = 0.4;
+                    scenarioName = 'Pessimiste (40%)';
+                    break;
+            }
+
+            const hebdoParticipants = Math.round(totalMembers * hebdoRate);
+            const mensuelParticipants = Math.round(totalMembers * mensuelRate);
+            const hebdoTotal = hebdoParticipants * 250 * 4 * period;
+            const mensuelTotal = mensuelParticipants * 500 * period;
+            const grandTotal = hebdoTotal + mensuelTotal;
+
+            document.getElementById(`scenario-${type}`).innerHTML = `
+                <div style="color: #059669; font-size: 1.1rem;">${grandTotal} FCFA</div>
+                <div style="font-size: 0.8rem; color: #6b7280;">sur ${period} mois</div>
+            `;
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 2rem 0; margin-top: 3rem; text-align: center; box-shadow: 0 -4px 6px rgba(0,0,0,0.1);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <p style="margin: 0; font-size: 1rem; font-weight: 500;">
+                © Copyright 2026 . Made by ABDOULAHI
+            </p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.875rem; opacity: 0.8;">
+                Système de Gestion Dahira Kenal - Tous droits réservés
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
