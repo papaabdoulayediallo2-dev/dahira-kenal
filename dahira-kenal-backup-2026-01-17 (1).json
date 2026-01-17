@@ -1,0 +1,245 @@
+{
+  "membres": [
+    {
+      "id": "1768685481537",
+      "nom": "Barro",
+      "prenom": "S Omar",
+      "telephone": "773861304",
+      "dateAdhesion": "2022-02-17"
+    },
+    {
+      "id": "1768685544226",
+      "nom": "Barry",
+      "prenom": "S Fallou",
+      "telephone": "786319955",
+      "dateAdhesion": "2022-02-17"
+    },
+    {
+      "id": "1768685718228",
+      "nom": "Camara",
+      "prenom": "Moussa",
+      "telephone": "775266821",
+      "dateAdhesion": "2022-02-17"
+    },
+    {
+      "id": "1768685768777",
+      "nom": "Camara",
+      "prenom": "Seyni",
+      "telephone": "785385819",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768685824519",
+      "nom": "Dia",
+      "prenom": "Cheikhouna",
+      "telephone": "782543177",
+      "dateAdhesion": "2023-02-17"
+    },
+    {
+      "id": "1768685865736",
+      "nom": "DIA",
+      "prenom": "Arona",
+      "telephone": "778071590",
+      "dateAdhesion": "2022-02-17"
+    },
+    {
+      "id": "1768685910455",
+      "nom": "Dia",
+      "prenom": "Fallou",
+      "telephone": "767681366",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768685975086",
+      "nom": "Diakhaté",
+      "prenom": "Pape Mor",
+      "telephone": "782910075",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686018206",
+      "nom": "Diallo",
+      "prenom": "Papa abdoulaye",
+      "telephone": "761808410",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686066179",
+      "nom": "Diallo",
+      "prenom": "Ousseynou",
+      "telephone": "783633847",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686116286",
+      "nom": "Dieng",
+      "prenom": "S Mor",
+      "telephone": "785112219",
+      "dateAdhesion": "2023-01-17"
+    },
+    {
+      "id": "1768686159980",
+      "nom": "Diop",
+      "prenom": "Khadim",
+      "telephone": "779773828",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686219816",
+      "nom": "Diop",
+      "prenom": "Pape Ndiaye",
+      "telephone": "781010518",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686266173",
+      "nom": "Diop",
+      "prenom": "S Moustapha",
+      "telephone": "771301219",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686322852",
+      "nom": "Diouf",
+      "prenom": "Matar",
+      "telephone": "776835519",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768686387190",
+      "nom": "Diouf",
+      "prenom": "Abdou karim",
+      "telephone": "787229925",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768686434621",
+      "nom": "Fall",
+      "prenom": "Abdou Aziz",
+      "telephone": "778734653",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686474958",
+      "nom": "Faty",
+      "prenom": "Ibrahima",
+      "telephone": "708518041",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686524871",
+      "nom": "Gaye",
+      "prenom": "Saliou",
+      "telephone": "778276102",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686670042",
+      "nom": "Gueye",
+      "prenom": "S Mbacké",
+      "telephone": "773497180",
+      "dateAdhesion": "2024-01-17"
+    },
+    {
+      "id": "1768686709503",
+      "nom": "Ka",
+      "prenom": "S Lamine",
+      "telephone": "773456041",
+      "dateAdhesion": "2023-11-17"
+    },
+    {
+      "id": "1768686793096",
+      "nom": "Mbengue",
+      "prenom": "S Babacar",
+      "telephone": "771781196",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686851296",
+      "nom": "Ndiaye",
+      "prenom": "S Adama",
+      "telephone": "772380816",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686890562",
+      "nom": "Ndiaye",
+      "prenom": "S Moussa",
+      "telephone": "776089367",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768686933022",
+      "nom": "Niang",
+      "prenom": "Moustapha",
+      "telephone": "756690266",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768686978942",
+      "nom": "Niang",
+      "prenom": "Ousmane",
+      "telephone": "765228207",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768687017838",
+      "nom": "Pouye",
+      "prenom": "S Adama",
+      "telephone": "771689540",
+      "dateAdhesion": "2023-01-17"
+    },
+    {
+      "id": "1768687070490",
+      "nom": "Sakho",
+      "prenom": "Ndéné",
+      "telephone": "789639611",
+      "dateAdhesion": "2023-01-17"
+    },
+    {
+      "id": "1768687096988",
+      "nom": "Sarr",
+      "prenom": "S Bara",
+      "telephone": "779134326",
+      "dateAdhesion": "2026-01-17"
+    },
+    {
+      "id": "1768687136274",
+      "nom": "Seck",
+      "prenom": "Alioune",
+      "telephone": "781852289",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768687170959",
+      "nom": "Seck",
+      "prenom": "Fallou",
+      "telephone": "768354211",
+      "dateAdhesion": "2024-01-17"
+    },
+    {
+      "id": "1768687212638",
+      "nom": "Sow",
+      "prenom": "Mamadou",
+      "telephone": "778815583",
+      "dateAdhesion": "2022-01-17"
+    },
+    {
+      "id": "1768687269520",
+      "nom": "Thiam",
+      "prenom": "S Abdou Lahat",
+      "telephone": "771692774",
+      "dateAdhesion": "2023-01-17"
+    },
+    {
+      "id": "1768687333798",
+      "nom": "Thiam",
+      "prenom": "Fallou",
+      "telephone": "774696372",
+      "dateAdhesion": "2022-01-17"
+    }
+  ],
+  "payments": [],
+  "exportDate": "2026-01-17T22:05:14.233Z",
+  "version": "1.0"
+}
